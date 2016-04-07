@@ -14,30 +14,41 @@ do
     echo ssh -q $addr touch .hushlogin | bash > /dev/null
     bash <<EOF
 ssh -q $addr
-#echo "apt-get update..."
-#sudo apt-get update > /dev/null
-#echo "Install git..."
-#sudo apt-get install git > /dev/null
+if [ ! -e /usr/bin/git ]
+then
+  echo "apt-get update..."
+  sudo apt-get update > /dev/null
+  echo "Install git..."
+  sudo apt-get install git -y > /dev/null
+fi
 echo "Create client key"
 rm -f .ssh/id_rsa*
 ssh-keygen -P "" -f .ssh/id_rsa > /dev/null
-CURRENT_HOSTNAME=`cat /etc/hostname | tr -d " \t\n\r"`
-NEW_HOSTNAME=$name
-echo \$NEW_HOSTNAME | sudo tee /etc/hostname > /dev/null
-sudo sed -i "s/127.0.1.1.*\$CURRENT_HOSTNAME/127.0.1.1\t\$NEW_HOSTNAME/g" /etc/hosts
 EOF
     echo Get public client key
     echo "ssh $addr cat .ssh/id_rsa.pub >> ~/.ssh/authorized_keys" | bash
     bash <<EOF
 ssh -q $addr
-rm -fr cluster
+rm -fr rpi-cluster
 echo "ssh -o StrictHostKeyChecking=no $MASTER_ADDR date" | bash
-git clone $MASTER_ADDR:cluster
+git clone $MASTER_ADDR:rpi-cluster
 echo "Expand root fs"
 sed 's/# Interactive.*/whiptail() { echo; } ; do_expand_rootfs ; exit 1/' /usr/bin/raspi-config | sudo bash > /dev/null
+CURRENT_HOSTNAME=\`cat /etc/hostname | tr -d " \t\n\r"\`
+echo "echo $name > /etc/hostname ; sed -i \"s/127.0.1.1.*\$CURRENT_HOSTNAME/127.0.1.1\t$name/g\" /etc/hosts" | sudo bash
 EOF
     echo Copy .bashrc
     echo "scp ~/.bashrc $addr:" | bash > /dev/null
     echo Reboot client
     echo "ssh $addr sudo shutdown -r now" | bash > /dev/null
 done
+
+echo ==== Update signatures ====
+
+cat $CLUSTER_HOME/slaves | while read name addr
+do
+  sleep 10
+  echo -n $name "  "
+  echo "ssh -o StrictHostKeyChecking=no $name.local date" | bash
+done
+
