@@ -1,0 +1,8 @@
+#!/bin/bash
+
+source common_functions
+
+require_slave
+
+cd "$CLUSTER_HOME"
+git pull

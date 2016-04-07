@@ -1,0 +1,7 @@
+
+In .bashrc, above interactive shell check add:
+export CLUSTER_HOME=/home/pi/cluster
+PATH="$PATH:$CLUSTER_HOME/bin"
+
+Install sshpass:
+sudo apt-get install sshpass

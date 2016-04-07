@@ -1,0 +1,19 @@
+#!/bin/bash
+
+source common_functions
+require_master
+
+echo ========== $MASTER_NAME ==========
+
+if [ ! -f ~/.ssh/id_rsa ]
+then
+  echo Generate master key
+  ssh-keygen -P "" -f ~/.ssh/id_rsa > /dev/null
+fi
+
+if ! which sshpass > /dev/null
+then
+  echo Install sshpass
+  sudo apt-get update > /dev/null
+  sudo apt-get install sshpass > /dev/null
+fi

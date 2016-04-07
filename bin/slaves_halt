@@ -1,0 +1,23 @@
+#!/bin/bash
+
+SELF=NO
+
+for i in "$@"
+do
+  case $i in
+    -m)
+      SELF=YES
+      shift
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+slaves_exec -p sudo shutdown -h now
+
+if [ "$SELF" == "YES" ]
+then
+  sudo shutdown -h now
+fi

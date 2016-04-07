@@ -1,0 +1,43 @@
+#!/bin/bash
+
+source common_functions
+require_master
+
+cat $CLUSTER_HOME/slaves | while read name addr
+do
+    echo ========== $name ==========
+    echo Create .ssh
+    echo sshpass -p raspberry ssh -o StrictHostKeyChecking=no $addr mkdir -p .ssh | bash
+    echo Copy public master key to client
+    echo sshpass -p raspberry scp ~/.ssh/id_rsa.pub $addr:.ssh/authorized_keys | bash
+    echo Hush login message
+    echo ssh -q $addr touch .hushlogin | bash > /dev/null
+    bash <<EOF
+ssh -q $addr
+#echo "apt-get update..."
+#sudo apt-get update > /dev/null
+#echo "Install git..."
+#sudo apt-get install git > /dev/null
+echo "Create client key"
+rm -f .ssh/id_rsa*
+ssh-keygen -P "" -f .ssh/id_rsa > /dev/null
+CURRENT_HOSTNAME=`cat /etc/hostname | tr -d " \t\n\r"`
+NEW_HOSTNAME=$name
+echo \$NEW_HOSTNAME | sudo tee /etc/hostname > /dev/null
+sudo sed -i "s/127.0.1.1.*\$CURRENT_HOSTNAME/127.0.1.1\t\$NEW_HOSTNAME/g" /etc/hosts
+EOF
+    echo Get public client key
+    echo "ssh $addr cat .ssh/id_rsa.pub >> ~/.ssh/authorized_keys" | bash
+    bash <<EOF
+ssh -q $addr
+rm -fr cluster
+echo "ssh -o StrictHostKeyChecking=no $MASTER_ADDR date" | bash
+git clone $MASTER_ADDR:cluster
+echo "Expand root fs"
+sed 's/# Interactive.*/whiptail() { echo; } ; do_expand_rootfs ; exit 1/' /usr/bin/raspi-config | sudo bash > /dev/null
+EOF
+    echo Copy .bashrc
+    echo "scp ~/.bashrc $addr:" | bash > /dev/null
+    echo Reboot client
+    echo "ssh $addr sudo shutdown -r now" | bash > /dev/null
+done

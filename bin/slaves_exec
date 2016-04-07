@@ -1,0 +1,40 @@
+#!/bin/bash
+
+source common_functions
+
+require_master
+
+FORK=NO
+
+for i in "$@"
+do
+  case $i in
+    -p)
+      FORK=YES
+      shift
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+for host in $SLAVE_NAMES
+do
+  echo "========== $host =========="
+  if [ "$FORK" == "YES" ]
+  then
+    ssh $host.local "$*" &
+  else
+    ssh $host.local "$*"
+  fi
+done
+
+if [ "$FORK" == "YES" ]
+then
+  for job in `jobs -p`
+  do
+    wait $job
+  done
+  echo ========== DONE ==========
+fi
