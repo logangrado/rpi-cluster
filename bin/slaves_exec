@@ -5,12 +5,17 @@ source common_functions
 require_master
 
 FORK=NO
+SELF=NO
 
 for i in "$@"
 do
   case $i in
     -p)
       FORK=YES
+      shift
+      ;;
+    -m)
+      SELF=YES
       shift
       ;;
     *)
@@ -29,6 +34,17 @@ do
     ssh $host.local "$*"
   fi
 done
+
+if [ "$SELF" == "YES" ]
+then
+  echo "========== $MASTER_NAME =========="
+  if [ "$FORK" == "YES" ]
+  then
+    $* &
+  else
+    $*
+  fi
+fi
 
 if [ "$FORK" == "YES" ]
 then
