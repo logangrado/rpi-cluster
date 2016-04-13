@@ -29,7 +29,7 @@ do
   echo "========== $host =========="
   if [ "$FORK" == "YES" ]
   then
-    ssh $host.local "$*" &
+    ( ssh $host.local "$*" | sed "s/^/$host: /g" ) &
   else
     ssh $host.local "$*"
   fi
@@ -40,7 +40,7 @@ then
   echo "========== $MASTER_NAME =========="
   if [ "$FORK" == "YES" ]
   then
-    $* &
+    ( $* | sed "s/^/$host: /g" ) &
   else
     $*
   fi
