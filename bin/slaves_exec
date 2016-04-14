@@ -44,7 +44,7 @@ then
   echo "========== $MASTER_NAME =========="
   if [ "$FORK" == "YES" ]
   then
-    ( $* | sed "s/^/$host: /g" ) &
+    ( $* | sed "s/^/$MASTER_NAME: /g" ) &
   else
     $*
   fi
