@@ -24,12 +24,16 @@ do
   esac
 done
 
+declare -a colorval=(31 32 33 34 35 36 37 38)
+
 for host in $SLAVE_NAMES
 do
   echo "========== $host =========="
   if [ "$FORK" == "YES" ]
   then
-    ( ssh $host.local "$*" | sed "s/^/$host: /g" ) &
+    color=${colorval[$index]}
+    index=$[index+1]
+    ( ssh $host.local "$*" | sed "s/^/\x1B[${color}m$host:\x1B[39m /g" ) &
   else
     ssh $host.local "$*"
   fi
