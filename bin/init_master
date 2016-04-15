@@ -5,6 +5,11 @@ require_master
 
 echo ========== $MASTER_NAME ==========
 
+if [ ! -f ~/.hushlogin ]
+then
+  touch ~/.hushlogin
+fi
+
 if [ ! -f ~/.ssh/id_rsa ]
 then
   echo Generate master key
