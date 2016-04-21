@@ -1,5 +1,5 @@
 
-In .bashrc, above interactive shell check add:
+In .bashrc, above interactive check shell add:
 ----------------------------------------------
 export CLUSTER_HOME=~/rpi-cluster
 PATH="$PATH:$CLUSTER_HOME/bin"
