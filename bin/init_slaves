@@ -45,10 +45,11 @@ done
 
 echo ==== Update signatures ====
 
+sleep 7
+
 cat $CLUSTER_HOME/slaves | while read name addr
 do
-  sleep 10
+  sleep 3
   echo -n $name "  "
   echo "ssh -o StrictHostKeyChecking=no $name.local date" | bash
 done
-
