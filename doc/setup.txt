@@ -1,8 +1,10 @@
+Run 'sudo raspi-config' to expand filesystem and change
+hostname to 'pi01' (master hostname)
 
-In .bashrc, above check for interactive shell add:
---------------------------------------------------
-export CLUSTER_HOME=~/rpi-cluster
-PATH="$PATH:$CLUSTER_HOME/bin"
+In .bashrc, above check for interactive shell add
+
+  export CLUSTER_HOME=~/rpi-cluster
+  PATH="$PATH:$CLUSTER_HOME/bin"
 
   nano .bashrc
 
@@ -11,6 +13,6 @@ reflect your local setup.
 
   nano rpi-cluster/master
   nano rpi-cluster/slaves
- 
-Then finally run 'init_cluster'
+
+Reboot and login again and then run 'init_cluster'
 
