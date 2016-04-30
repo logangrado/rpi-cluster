@@ -22,7 +22,7 @@ reflect your local setup.
   git add master slaves
   git commit -m "Updated ip adresses"
 
-Now run 'init_cluster'
-
 Reboot master 'sudo shutdown -r now'
+
+Login again and now run 'init_cluster' to setup slaves
 
