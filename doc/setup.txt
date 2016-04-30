@@ -9,7 +9,7 @@ If you use to get locale warnings in bash you can add
 
   nano .bashrc
 
-Edit ip adresses in rpi-cluster/master and rpi-cluster/slaves to 
+Edit ip addresses in rpi-cluster/master and rpi-cluster/slaves to 
 reflect your local setup.
 
   nano rpi-cluster/master
@@ -17,7 +17,7 @@ reflect your local setup.
   
   cd rpi-cluster
   git add master slaves
-  git commit -m "Updated ip adresses"
+  git commit -m "Updated ip addresses"
 
 Run 'sudo raspi-config' to expand filesystem and change
 hostname to 'pi01' (master hostname)
