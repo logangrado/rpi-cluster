@@ -1,5 +1,8 @@
 
-In .bashrc, above interactive check shell add:
-----------------------------------------------
+In .bashrc, above check for interactive shell add:
+--------------------------------------------------
 export CLUSTER_HOME=~/rpi-cluster
 PATH="$PATH:$CLUSTER_HOME/bin"
+
+Edit ip adresses in rpi-cluster/master and rpi-cluster/slaves to 
+reflect your local setup.
