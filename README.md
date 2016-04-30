@@ -1,0 +1,1 @@
+[See this](https://medium.com/@e_patel/setting-up-a-raspberry-pi-cluster-366216b7cfe3#.b040qhpd2)
