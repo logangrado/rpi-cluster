@@ -6,6 +6,10 @@ In .bashrc, above check for interactive shell add
   export CLUSTER_HOME=~/rpi-cluster
   PATH="$PATH:$CLUSTER_HOME/bin"
 
+If you use to get locale warnings in bash you can add
+
+  export LC_ALL=C
+
   nano .bashrc
 
 Edit ip adresses in rpi-cluster/master and rpi-cluster/slaves to 
@@ -13,6 +17,12 @@ reflect your local setup.
 
   nano rpi-cluster/master
   nano rpi-cluster/slaves
+  
+  cd rpi-cluster
+  git add master slaves
+  git commit -m "Updated ip adresses"
 
-Reboot and login again and then run 'init_cluster'
+Now run 'init_cluster'
+
+Reboot master 'sudo shutdown -r now'
 
