@@ -1,6 +1,3 @@
-Run 'sudo raspi-config' to expand filesystem and change
-hostname to 'pi01' (master hostname)
-
 In .bashrc, above check for interactive shell add
 
   export CLUSTER_HOME=~/rpi-cluster
@@ -22,7 +19,8 @@ reflect your local setup.
   git add master slaves
   git commit -m "Updated ip adresses"
 
-Reboot master 'sudo shutdown -r now'
+Run 'sudo raspi-config' to expand filesystem and change
+hostname to 'pi01' (master hostname)
 
-Login again and now run 'init_cluster' to setup slaves
+Reboot master and login again and now run 'init_cluster' to setup slaves
 
