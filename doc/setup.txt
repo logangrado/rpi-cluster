@@ -4,6 +4,13 @@ In .bashrc, above check for interactive shell add:
 export CLUSTER_HOME=~/rpi-cluster
 PATH="$PATH:$CLUSTER_HOME/bin"
 
+  nano .bashrc
+
 Edit ip adresses in rpi-cluster/master and rpi-cluster/slaves to 
 reflect your local setup.
+
+  nano rpi-cluster/master
+  nano rpi-cluster/slaves
+ 
+Then finally run 'init_cluster'
 
