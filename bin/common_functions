@@ -1,7 +1,7 @@
-MASTER_NAME=`cat "$CLUSTER_HOME/master" | while read name addr; do echo $name ; done`
-SLAVE_NAMES=`cat "$CLUSTER_HOME/slaves" | while read name addr; do echo $name ; done`
-MASTER_ADDR=`cat "$CLUSTER_HOME/master" | while read name addr; do echo $addr ; done`
-SLAVE_ADDRS=`cat "$CLUSTER_HOME/slaves" | while read name addr; do echo $addr ; done`
+MASTER_NAME=`cat "$CLUSTER_HOME/master" | while read addr name; do echo $name ; done`
+SLAVE_NAMES=`cat "$CLUSTER_HOME/slaves" | while read addr name; do echo $name ; done`
+MASTER_ADDR=`cat "$CLUSTER_HOME/master" | while read addr name; do echo $addr ; done`
+SLAVE_ADDRS=`cat "$CLUSTER_HOME/slaves" | while read addr name; do echo $addr ; done`
 
 require_master() {
   if [ `hostname` != "$MASTER_NAME" ]
