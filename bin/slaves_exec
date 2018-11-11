@@ -25,19 +25,6 @@ done
 
 declare -a colorval=(31 32 33 34 35 36 37 38)
 
-for host in $SLAVE_NAMES
-do
-  echo "========== $host =========="
-  if [ "$FORK" == "YES" ]
-  then
-    color=${colorval[$index]}
-    index=$[index+1]
-    ( ssh $host.local "$*" | sed "s/^/\x1B[${color}m$host:\x1B[39m /g" ) &
-  else
-    ssh $host.local "$*"
-  fi
-done
-
 if [ "$SELF" == "YES" ]
 then
   echo "========== $MASTER_NAME =========="
@@ -48,6 +35,19 @@ then
     $*
   fi
 fi
+
+while read ADDR NAME
+do
+  echo "========== $NAME =========="
+  if [ "$FORK" == "YES" ]
+  then
+    color=${colorval[$index]}
+    index=$[index+1]
+    ssh $ADDR "$*" | sed "s/^/\x1B[${color}m$NAME:\x1B[39m /g" &
+   else
+    echo ssh $ADDR "$*" | bash
+  fi
+done <<< $(cat $CLUSTER_HOME/slaves)
 
 if [ "$FORK" == "YES" ]
 then
