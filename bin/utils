@@ -1,0 +1,33 @@
+#!/bin/bash
+
+function check_pass {
+
+    correct='false'
+    attempts=0
+
+    while [ $correct == 'false' ] ; do
+        echo -n Enter password: >&2
+        read -s PASS
+        
+        sudo -k
+        #if echo $PASS sudo -lS &> /dev/null
+        
+        if sudo -lS &> /dev/null << EOF 
+$PASS
+EOF
+        then
+            correct='true'
+        else
+            attempts=$(($attempts+1))
+            if (( "$attempts" >= 3 )); then
+                echo >&2
+                echo '3 incorrect password attempts' >&2
+                exit 1
+            fi
+            
+            echo >&2
+            echo 'Sorry, try again.' >&2
+        fi
+    done
+    echo $PASS
+}
